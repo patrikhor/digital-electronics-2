@@ -5,17 +5,30 @@
 1. Listing of C code which repeats one "dot" and one "comma" (BTW, in Morse code it is letter `A`) on a LED. Always use syntax highlighting, meaningful comments, and follow C guidelines:
 
 ```c
+#define SHORT_DELAY 250
+#define LONG_DELAY 750
+
 int main(void)
-{
+{   
     // Set pin where on-board LED is connected as output
     pinMode(LED_GREEN, OUTPUT);
 
     // Infinite loop
     while (1)
     {
-        // Generate a lettre `A` Morse code
-
-        // WRITE YOUR CODE HERE
+        //dot
+        digitalWrite(LED_GREEN, HIGH);
+        _delay_ms(SHORT_DELAY);
+        //delay in letter
+        digitalWrite(LED_GREEN, LOW);
+        _delay_ms(SHORT_DELAY);
+        
+        //comma
+         digitalWrite(LED_GREEN, HIGH);
+        _delay_ms(LONG_DELAY);
+        //delay between letters
+        digitalWrite(LED_GREEN, LOW);
+        _delay_ms(LONG_DELAY);
 
     }
 
