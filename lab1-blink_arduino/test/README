@@ -17,17 +17,17 @@ int main(void)
     while (1)
     {
         //dot
-        digitalWrite(LED_GREEN, HIGH);
+        digitalWrite(LED_GREEN, LOW);
         _delay_ms(SHORT_DELAY);
         //delay in letter
-        digitalWrite(LED_GREEN, LOW);
+        digitalWrite(LED_GREEN, HIGH);
         _delay_ms(SHORT_DELAY);
         
         //comma
-         digitalWrite(LED_GREEN, HIGH);
+         digitalWrite(LED_GREEN, LOW);
         _delay_ms(LONG_DELAY);
         //delay between letters
-        digitalWrite(LED_GREEN, LOW);
+        digitalWrite(LED_GREEN, HIGH);
         _delay_ms(LONG_DELAY);
 
     }
