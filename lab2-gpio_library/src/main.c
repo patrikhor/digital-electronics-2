@@ -14,7 +14,7 @@
 #define LED_GREEN PB5   // PB5 is AVR pin where green on-board LED
                         // is connected
 #define LED_RED PB0     // External active-low LED
-#define SHORT_DELAY 250 // Delay in milliseconds
+#define SHORT_DELAY 500 // Delay in milliseconds
 #ifndef F_CPU
 # define F_CPU 16000000 // CPU frequency in Hz required for delay funcs
 #endif
@@ -56,6 +56,7 @@ int main(void)
 
     //treti cast
     GPIO_mode_output(&DDRB, LED_GREEN);
+    GPIO_mode_output(&DDRB, LED_RED);
 
     // Infinite loop
     while (1)
@@ -71,13 +72,14 @@ int main(void)
         //PORTB |= (1<<LED_RED);
         
         GPIO_write_low(&PORTB, LED_GREEN);
-
+        GPIO_write_low(&PORTB, LED_RED);
 
         // Pause several milliseconds
         _delay_ms(SHORT_DELAY);
         
         GPIO_write_high(&PORTB, LED_GREEN);
-        
+        GPIO_write_high(&PORTB, LED_RED);
+
         _delay_ms(SHORT_DELAY);
         
         //PORTB &= ~(1<<LED_GREEN);
