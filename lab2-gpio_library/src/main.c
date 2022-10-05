@@ -1,6 +1,6 @@
 /***********************************************************************
  * 
- * Blink a LED in Arduino-style and use function from the delay library.
+ * Blink LEDs in Arduino-style and use function from the delay library.
  * ATmega328P (Arduino Uno), 16 MHz, PlatformIO
  *
  * Copyright (c) 2022 Tomas Fryza
@@ -11,12 +11,10 @@
 
 
 /* Defines -----------------------------------------------------------*/
-#define LED_GREEN PB5 // PB5 is AVR pin where green on-board LED 
-#define RED_GREEN PB1
-   
+#define LED_GREEN PB5   // PB5 is AVR pin where green on-board LED
                         // is connected
+#define LED_RED PB0     // External active-low LED
 #define SHORT_DELAY 250 // Delay in milliseconds
-#define LONG_DELAY 750
 #ifndef F_CPU
 # define F_CPU 16000000 // CPU frequency in Hz required for delay funcs
 #endif
@@ -31,14 +29,14 @@
 // names. We are using Arduino-style just to simplify the first lab.
 #include "Arduino.h"
 #define PB5 13          // In Arduino world, PB5 is called "13"
-#define PB1 8
+#define PB0 8
 // -----
 
 
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
  * Function: Main function where the program execution begins
- * Purpose:  Toggle one LED and use delay library.
+ * Purpose:  Toggle LEDs and use delay library.
  * Returns:  none
  **********************************************************************/
 int main(void)
@@ -47,24 +45,25 @@ int main(void)
 
     // Set pin where on-board LED is connected as output
     pinMode(LED_GREEN, OUTPUT);
-    pinMode(RED_GREEN, OUTPUT);
+    // Set second pin as output
+    pinMode(LED_RED, OUTPUT);
+
     // Infinite loop
     while (1)
-    { 
-        //dot
-        digitalWrite(LED_GREEN, LOW);
-        _delay_ms(SHORT_DELAY);
-        //delay in letter
-        digitalWrite(LED_GREEN, HIGH);
-        _delay_ms(SHORT_DELAY);
-        
-        //comma
-         digitalWrite(LED_GREEN, LOW);
-        _delay_ms(LONG_DELAY);
-        //delay between letters
-        digitalWrite(LED_GREEN, HIGH);
-        _delay_ms(LONG_DELAY);
+    {
+        // Turn ON/OFF on-board LED ...
+        digitalWrite(LED_GREEN, led_value);
+        // ... and external LED as well
+        digitalWrite(LED_RED, led_value);
 
+        // Pause several milliseconds
+        _delay_ms(SHORT_DELAY);
+
+        // Change LED value
+        if (led_value == LOW)
+            led_value = HIGH;
+        else
+            led_value = LOW;
     }
 
     // Will never reach this
