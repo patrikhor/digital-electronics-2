@@ -29,5 +29,5 @@ Consider an n-bit number that we increment based on the clock signal. If we reac
    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
    | Timer/Counter0 | 8  | 16u | 128u | -- | 1024u | -- | 4096u | 16384u |
    | Timer/Counter1 | 16 | 4096u | 32768u | -- | 262144u | -- | 1048576u | 4194304u |
-   | Timer/Counter2 | 8  |     |      |    | |    | | |
+   | Timer/Counter2 | 8  | 16u | 128u | 512u | 1024u | 2048u | 4096u | 16384u |
 
