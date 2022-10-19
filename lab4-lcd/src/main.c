@@ -43,13 +43,74 @@
  **********************************************************************/
 int main(void)
 {
+    // Custom character definition using https://omerk.github.io/lcdchargen/
+    uint8_t customChar[] = {
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,    
+
+        0b10000,
+        0b10000,
+        0b10000,
+        0b10000,
+        0b10000,
+        0b10000,
+        0b10000,
+        0b10000,
+        
+        0b11000,
+        0b11000,
+        0b11000,
+        0b11000,
+        0b11000,
+        0b11000,
+        0b11000,
+        0b11000,
+
+        0b11100,
+        0b11100,
+        0b11100,
+        0b11100,
+        0b11100,
+        0b11100,
+        0b11100,
+        0b11100,
+
+        0b11110,
+        0b11110,
+        0b11110,
+        0b11110,
+        0b11110,
+        0b11110,
+        0b11110,
+        0b11110,
+
+        0b11111,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b11111
+    };
+
+    
+
     // Initialize display
     lcd_init(LCD_DISP_ON_CURSOR_BLINK);
 
-    // Put string(s) on LCD screen
-    lcd_gotoxy(6, 1);
-    lcd_puts("LCD Test");
-    lcd_putc('!');
+    lcd_command(1<<LCD_CGRAM);       // Set addressing to CGRAM (Character Generator RAM)
+                                     // ie to individual lines of character patterns
+    for (uint8_t i = 0; i < sizeof(customChar); i++)  // Copy new character patterns line by line to CGRAM
+        lcd_data(customChar[i]);   
+    lcd_command(1<<LCD_DDRAM);       // Set addressing back to DDRAM (Display Data RAM)
+
 
     // Configuration of 8-bit Timer/Counter2 for Stopwatch update
     // Set the overflow prescaler to 16 ms and enable interrupt
@@ -82,21 +143,23 @@ ISR(TIMER2_OVF_vect)
     static uint8_t no_of_overflows = 0;
     static uint8_t tenths = 0;  // Tenths of a second
     static uint8_t seconds = 0;  // second
+    static uint8_t tenthsForCounting = 0;  // second
     static uint8_t minutes = 0;  // minutes
     char string[2];             // String for converted numbers by itoa()
 
+    char running_text[] = " I like Digital electronics!\n";
     no_of_overflows++;
     if (no_of_overflows >= 6)
     {
-        // Do this every 6 x 16 ms = 100 ms
-        no_of_overflows = 0;
+        
 
         // Count tenth of seconds 0, 1, ..., 9, 0, 1, ...
         tenths++;
-
+        tenthsForCounting++;
         if(tenths > 9){
             tenths = 0;
             seconds++;
+            
 
             if (seconds > 60){
                 seconds = 0;
@@ -128,10 +191,41 @@ ISR(TIMER2_OVF_vect)
         itoa(tenths, string, 10);  // Convert decimal value to string
         lcd_puts(string);
 
+        lcd_gotoxy(11, 0);
+        if(seconds < 1){
+            for(int i = 0; i < 4;i++){   
+                    lcd_putc(0);
+                }
+        }
+        lcd_gotoxy(11, 0);
+        itoa(seconds*seconds,string, 10);
+        lcd_puts(string);
 
-;
+        lcd_gotoxy(1, 1);
 
+        for(int i = 0; i < tenthsForCounting;i++){
+            lcd_putc(5);
+            if (tenthsForCounting > 9)
+            {
+                lcd_gotoxy(1, 1);
+                for(int i = 0; i < tenthsForCounting;i++){   
+                    lcd_putc(0);
+                }
+                tenthsForCounting = 0;
+                
+            }
+            
+        }
 
+        lcd_gotoxy(11, 1);
+        for (int i = 0; i < sizeof(running_text); i++)
+        {
+            lcd_putc(running_text[i]);
+        }
+        
+        
+        // Do this every 6 x 16 ms = 100 ms
+        no_of_overflows = 0;
     }
     // Else do nothing and exit the ISR
 }
