@@ -41,10 +41,10 @@ Consider an n-bit number that we increment based on the clock signal. If we reac
    | **LCD signal(s)** | **AVR pin(s)** | **Description** |
    | :-: | :-: | :-- |
    | RS | PB0 | Register selection signal. Selection between Instruction register (RS=0) and Data register (RS=1) |
-   | R/W |  |  |
-   | E |  |  |
+   | R/W | Ground |  |
+   | E | PB1 |  |
    | D[3:0] |  |  |
-   | D[7:4] |  |  |
+   | D[7:4] | PD[4:7] |  |
    | K |  |  |
 
 2. What is the ASCII table? What are the codes/values for uppercase letters `A` to `Z`, lowercase letters `a` to `z`, and numbers `0` to `9` in this table?
@@ -52,13 +52,13 @@ Consider an n-bit number that we increment based on the clock signal. If we reac
    | **Char** | **Decimal** | **Hexadecimal** |
    | :-: | :-: | :-: |
    | `A` | 65 | 0x41 |
-   | `B` |  |  |
+   | `B` | 66 | 0x42 |
    | ... |  |  |
    | `a` | 97 | 0x61 |
-   | `b` |  |  |
+   | `b` | 98 | 0x62 |
    | ... |  |  |
    | `0` | 48 | 0x30 |
-   | `1` |  |  |
+   | `1` | 49 | 0x31 |
    | ... |  |  |
 
 <a name="part1"></a>
