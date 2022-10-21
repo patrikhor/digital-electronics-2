@@ -161,7 +161,7 @@ ISR(TIMER2_OVF_vect)
             seconds++;
             
 
-            if (seconds > 60){
+            if (seconds > 59){
                 seconds = 0;
                 minutes++;
                 if (minutes > 59)
