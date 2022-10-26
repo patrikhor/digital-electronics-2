@@ -106,9 +106,11 @@ ISR(ADC_vect)
     // Note that, register pair ADCH and ADCL can be read as a 16-bit value ADC
     value = ADC;
     // Convert "value" to "string" and display it
+
     itoa(value,string, 10);
     lcd_gotoxy(6, 0);
     lcd_puts(string);
+    //calculating voltage from ADC value
     volt = (value*5000)/1023;
     itoa(volt,string, 10);
     lcd_gotoxy(10, 1);
@@ -119,6 +121,7 @@ ISR(ADC_vect)
     lcd_gotoxy(13, 0);
     lcd_puts(string);
 
+    //logic for name of button
     if (value > 1000)
     {
       lcd_gotoxy(4, 1);
