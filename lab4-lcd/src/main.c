@@ -146,7 +146,7 @@ ISR(TIMER2_OVF_vect)
     static uint8_t tenthsForCounting = 0;  // second
     static uint8_t minutes = 0;  // minutes
     char string[2];             // String for converted numbers by itoa()
-
+    uint8_t cislo = 0;
     char running_text[] = " I like Digital electronics!\n";
     no_of_overflows++;
     if (no_of_overflows >= 6)
@@ -216,13 +216,19 @@ ISR(TIMER2_OVF_vect)
             }
             
         }
-
+        
         lcd_gotoxy(11, 1);
-        for (int i = 0; i < sizeof(running_text); i++)
+        for (int i = cislo; i < cislo+4; i++)
         {
             lcd_putc(running_text[i]);
+            
+            if (cislo > 30 )
+            {
+                cislo=0;
+            }
+            
         }
-        
+        cislo++;
         
         // Do this every 6 x 16 ms = 100 ms
         no_of_overflows = 0;
