@@ -4,3 +4,6 @@
 {name: 'e', wave: '3.01010.1....3.', data: ['idle', 'idle']},
 {name: '2', wave: '3.0.10.1.0.1.3.', data: ['idle', 'idle']}, 
  ]}
+
+
+https://wavedrom.com/editor.html
