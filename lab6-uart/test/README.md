@@ -1,4 +1,4 @@
-# Lab 6: INSERT_YOUR_FIRSTNAME INSERT_YOUR_LASTNAME
+# Lab 6: Patrik Horčička
 
 ### ASCII
 
@@ -22,18 +22,8 @@
 
 2. Draw timing diagram of the output from UART/USART when transmitting three character data `De2` in 4800 7O2 mode (7 data bits, odd parity, 2 stop bits, 4800&nbsp;Bd). The image can be drawn on a computer or by hand. Name all parts timing diagram.
 
-
-{signal: [
-  {name: 'clk', wave: 'p.....|...'},
-  {name: 'D', wave: '3.0..10..1...3.', data: ['idle', 'idle']},  
-  {name: 'e', wave: '3.01010.1....3.', data: ['idle', 'idle']},  
-  {name: '2', wave: '3.0.10.1.0.1.3.', data: ['idle', 'idle']}, 
-]}
-
-https://wavedrom.com/editor.html
-
-   ![your figure]()
+   ![your figure](wavedrom.png)
 
 3. Draw a flowchart for function `uint8_t get_parity(uint8_t data, uint8_t type)` which calculates a parity bit of input 8-bit `data` according to parameter `type`. The image can be drawn on a computer or by hand. Use clear descriptions of individual algorithm steps.
 
-   ![your figure]()
+   ![your figure](CV06-VyvojovyDiagram.drawio.png)
