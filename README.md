@@ -70,15 +70,16 @@ Consider an n-bit number that we increment based on the clock signal. If we reac
 
    | **Instruction** | **Operation** | **Description** | **Cycles** |
    | :-- | :-: | :-- | :-: |
-   | `add Rd, Rr` |  |  |  |
+   | `add Rd, Rr` | Rd = Rd and Rr | Adds two registers without the C flag | 1 |
    | `andi Rd, K` | Rd = Rd and K | Logical AND between register Rd and 8-bit constant K | 1 |
-   | `bld Rd, b` |  |  |  |
-   | `bst Rd, b` |  |  |  |
-   | `com Rd` |  |  |  |
-   | `eor Rd, Rr` |  |  |  |
-   | `mul Rd, Rr` |  |  |  |
-   | `pop Rd` |  |  |  |
-   | `push Rr` |  |  |  |
-   | `ret` |  |  |  |
-   | `rol Rd` |  |  |  |
-   | `ror Rd` |  |  |  |
+   | `bld Rd, b` | Rd(b) = T | Copies the T bit in the SREG (Status Register) to bit b in register Rd | 1 |
+   | `bst Rd, b` | T = Rd(b) | Stores bit b from Rd to the T bit in SREG | 1 |
+   | `com Rd` | Rd = 0xFF - Rd | This instruction performs a One’s Complement of register Rd. | 1 |
+   | `eor Rd, Rr` | Rd = Rd EOR Rr | Performs the logical EOR between the contents of register Rd and register Rr and places the result in the destination register Rd | 1 |
+   | `mul Rd, Rr` | R1:R0 = Rd x Rr | The multiplicand Rd and the multiplier Rr are two registers containing unsigned numbers | 1 |
+   | `pop Rd` | Rd = STACK | This instruction loads register Rd with a byte from the STACK | 1 |
+   | `push Rr` | STACK = Rd | This instruction stores the contents of register Rr on the STACK | 1 |
+   | `ret` | PC(15:0) = STACK | Devices with 16-bit PC, 128 KB program memory maximum | 2 |
+   | `rol Rd` | C
+   | Shifts all bits in Rd one place to the left. The C flag is shifted into bit 0 of Rd. Bit 7 is shifted into the C flag. This operation, combined with LSL, effectively multiplies multi-byte signed and unsigned values by two. | 1 |
+   | `ror Rd` |  | Shifts all bits in Rd one place to the right. The C flag is shifted into bit 7 of Rd. Bit 0 is shifted into the C flag. This operation, combined with ASR, effectively divides multi-byte signed values by two. Combined with LSR, it effectively divides multi-byte unsigned values by two. The Carry flag can be used to round the result. | 1 |
