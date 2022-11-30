@@ -4,14 +4,22 @@
 #include "timer.h"          // Timer library for AVR-GCC
 #include <lcd.h>            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for number conversions
-
+#include <uart.h>
 #define BUTTON PB2
+//encoder pins
+
+ #define A  4 
+ #define B  5
 
 int main(void)
 {
   // Initialize display
   lcd_init(LCD_DISP_ON);
-  GPIO_mode_input_pullup(&DDRD, BUTTON);
+  uart_init(UART_BAUD_SELECT(9600, F_CPU));
+  GPIO_mode_input_pullup(&DDRB, BUTTON);
+  GPIO_mode_input_nopullup(&DDRB, A);
+  GPIO_mode_input_nopullup(&DDRB, B);
+
 
 // Configure Analog-to-Digital Convertion unit
     // Select ADC voltage reference to "AVcc with external capacitor at AREF pin"
@@ -52,26 +60,29 @@ int main(void)
 }
 
 ISR(TIMER1_OVF_vect)
-{ static int16_t tec = 0;
-if(tec == 0)
-{  	ADMUX &= ~(1<<MUX0);
+{ 
+  static int8_t tec = 0;
+   
+  if(tec == 0)
+  {  	ADMUX &= ~(1<<MUX0);
+      ADMUX &= ~(1<<MUX1);
+      ADMUX &= ~(1<<MUX2);
+      ADMUX &= ~(1<<MUX3);
+      // Start ADC conversion
+      ADCSRA |= (1<<ADSC);
+      tec = 1;
+      }
+  else{ADMUX |=  (1<<MUX0);
     ADMUX &= ~(1<<MUX1);
     ADMUX &= ~(1<<MUX2);
     ADMUX &= ~(1<<MUX3);
-    // Start ADC conversion
-    ADCSRA |= (1<<ADSC);
-    tec = 1;
-    }
-    else{ADMUX |=  (1<<MUX0);
-    ADMUX &= ~(1<<MUX1);
-    ADMUX &= ~(1<<MUX2);
-    ADMUX &= ~(1<<MUX3);
-       // Start ADC conversion
+        // Start ADC conversion
     ADCSRA |= (1<<ADSC);
     tec = 0;
-    }
-    lcd_clrscr();
-}
+  }
+  Encoder();   
+  }
+
 
 
 
@@ -104,10 +115,37 @@ ISR(ADC_vect)
     itoa(value2,string, 10);
     lcd_gotoxy(6, 1);
     lcd_puts(string);
-    if(GPIO_read(&PIND, BUTTON)){
-        
-    lcd_gotoxy(11, 1);
-    lcd_puts("+");
+    if(GPIO_read(&PINB, BUTTON)){
+      lcd_gotoxy(11, 1);
+      lcd_puts("+");
+    }else{
+      lcd_gotoxy(11, 1);
+      lcd_puts("-");
     }
+}
+void Encoder(){
+  static uint8_t A_curr, B_curr, A_prev, B_prev; 
+  A_curr = GPIO_read(&PINB, A); 
+  B_curr = GPIO_read(&PINB, B);
+ 
+  if(A_curr != A_prev && A_curr  == 1)
+  {
+    if (B_curr ==A_curr)
+    {
+    lcd_gotoxy(10, 0); 
+    lcd_puts("CCW");
+    uart_puts("CCW");
+    uart_puts("\r\n\n");
+  
+    }else{
+       lcd_gotoxy(10, 0);
+        lcd_puts("CW ");
+        uart_puts("CW ");
+        uart_puts("\r\n\n");
+     
+    }
+   
+  }
+  A_prev = A_curr;
 
 }
