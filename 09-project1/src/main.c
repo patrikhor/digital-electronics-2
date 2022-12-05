@@ -5,17 +5,25 @@
 #include <lcd.h>            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for number conversions
 #include <uart.h>
-#define BUTTON PB2
-//encoder pins
 
- #define A  4 
- #define B  5
+//joyStick button
+#define BUTTON PB2
+
+//encoder pins
+#define A  4 
+#define B  5
+
+//static global variable
+static uint8_t joyX = 0;
+static uint8_t joyY = 0;
 
 int main(void)
 {
   // Initialize display
   lcd_init(LCD_DISP_ON);
   uart_init(UART_BAUD_SELECT(9600, F_CPU));
+
+  //Setting GPIO pins
   GPIO_mode_input_pullup(&DDRB, BUTTON);
   GPIO_mode_input_nopullup(&DDRB, A);
   GPIO_mode_input_nopullup(&DDRB, B);
@@ -62,7 +70,6 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 { 
   static int8_t tec = 0;
-   
   if(tec == 0)
   {  	ADMUX &= ~(1<<MUX0);
       ADMUX &= ~(1<<MUX1);
@@ -80,8 +87,11 @@ ISR(TIMER1_OVF_vect)
     ADCSRA |= (1<<ADSC);
     tec = 0;
   }
-  Encoder();   
-  }
+  Encoder();
+  //lcd_clrscr();
+  
+     
+}
 
 
 
@@ -92,60 +102,99 @@ ISR(ADC_vect)
     lcd_puts("value:");
     lcd_gotoxy(0, 1); 
     lcd_puts("key:");
-
+    
     char string[4];
-    static float value;
-    static float value2;
+    static float valueX;
+    static float valueY;
     static int16_t tec = 0;
     
     if (tec == 0)
     {
-      value = ADC;
+      valueX = ADC;
       tec = 1;
     }else{
-      value2 = ADC;
+      valueY = ADC;
       tec = 0;
     }
-    
-    itoa(value,string, 10);
+    /*
+    itoa(valueX,string, 10);
     lcd_gotoxy(6, 0);
     lcd_puts(string);
 
-    
-    itoa(value2,string, 10);
+    itoa(valueY,string, 10);
     lcd_gotoxy(6, 1);
-    lcd_puts(string);
+    lcd_puts(string);*/
+
     if(GPIO_read(&PINB, BUTTON)){
-      lcd_gotoxy(11, 1);
-      lcd_puts("+");
+      //pressed
+      //lcd_gotoxy(11, 1);
+      //lcd_puts("+");
+
+      lcd_gotoxy(joyX,joyY);
+      lcd_puts(" ");
+
     }else{
-      lcd_gotoxy(11, 1);
-      lcd_puts("-");
+      //don´t press
+      //lcd_gotoxy(11, 1);
+      //lcd_puts("-");
     }
+
+
 }
+
+//method for encoder
 void Encoder(){
-  static uint8_t A_curr, B_curr, A_prev, B_prev; 
+  static uint8_t A_curr, B_curr, A_prev;
+  static uint8_t prom = 0;
+  static int8_t counter = 0;
+  static char alphabet[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
   A_curr = GPIO_read(&PINB, A); 
   B_curr = GPIO_read(&PINB, B);
  
   if(A_curr != A_prev && A_curr  == 1)
   {
+    //turning left
     if (B_curr ==A_curr)
     {
-    lcd_gotoxy(10, 0); 
-    lcd_puts("CCW");
-    uart_puts("CCW");
-    uart_puts("\r\n\n");
+    prom = 1;
   
-    }else{
-       lcd_gotoxy(10, 0);
-        lcd_puts("CW ");
-        uart_puts("CW ");
-        uart_puts("\r\n\n");
+    }
+    //turning right
+    else{
+       
+        prom = 2;
      
     }
    
   }
   A_prev = A_curr;
+  if (prom == 1)
+  {
+    //lcd_gotoxy(10, 0); 
+    //lcd_puts("CCW");
+    uart_puts("CCW");
+    uart_puts("\r\n\n");
+    counter--;
+
+  }
+  if (prom == 2)
+  {
+    //lcd_gotoxy(10, 0);
+    //lcd_puts("CW ");
+    uart_puts("CW ");
+    uart_puts("\r\n\n");
+    counter++;
+  }
+  if (counter <= -1)
+  {
+    counter = 25;
+  }
+  if (counter >= 26)
+  {
+    counter == 0;
+  }
+
+  lcd_gotoxy(joyX,joyY);
+  lcd_puts(alphabet[counter]);
 
 }
