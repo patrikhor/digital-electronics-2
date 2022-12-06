@@ -33,8 +33,6 @@ int main(void)
   // Select input channel ADC0 (voltage divider pin)
   
   // channel ADC1
-   
-
   ADCSRA |= (1<<ADEN);
   // Enable conversion complete interrupt
   ADCSRA |= (1<<ADIE);
@@ -64,6 +62,7 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 { 
   static int8_t tec = 0;
+  //changing X and Y of joystick
   if(tec == 0)
   { ADMUX &= ~(1<<MUX0);
     ADMUX &= ~(1<<MUX1);
