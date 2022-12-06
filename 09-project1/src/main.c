@@ -8,6 +8,15 @@
 
 //joyStick button
 #define BUTTON PB2
+#define BUTTONenc PB3
+//encoder pins
+#define A  4 
+#define B  5        
+
+//static global variable
+static int8_t joyX = 0;
+static int8_t joyY = 0;
+
 
 //encoder pins
 #define A  4 
@@ -16,6 +25,7 @@
 //static global variable
 static uint8_t joyX = 0;
 static uint8_t joyY = 0;
+
 
 int main(void)
 {
@@ -50,9 +60,8 @@ int main(void)
     // Set prescaler to 33 ms and enable overflow interrupt
     TIM1_overflow_33ms();
     TIM1_overflow_interrupt_enable();
-
-
-
+    TIM0_overflow_16ms();
+    TIM0_overflow_interrupt_enable();
     // Enables interrupts by setting the global interrupt mask
     sei();
 
@@ -87,22 +96,37 @@ ISR(TIMER1_OVF_vect)
     ADCSRA |= (1<<ADSC);
     tec = 0;
   }
+<<<<<<< HEAD
+  
+=======
   Encoder();
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
   //lcd_clrscr();
   
      
 }
+<<<<<<< HEAD
+ISR(TIMER0_OVF_vect){
+  Encoder();
+}
+=======
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
 
 
 
 
 ISR(ADC_vect)
 {
+<<<<<<< HEAD
+
+    static uint8_t state = 0;
+=======
     lcd_gotoxy(0, 0); 
     lcd_puts("value:");
     lcd_gotoxy(0, 1); 
     lcd_puts("key:");
     
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
     char string[4];
     static float valueX;
     static float valueY;
@@ -116,8 +140,13 @@ ISR(ADC_vect)
       valueY = ADC;
       tec = 0;
     }
+<<<<<<< HEAD
+    
+   /* itoa(valueX,string, 10);
+=======
     /*
     itoa(valueX,string, 10);
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
     lcd_gotoxy(6, 0);
     lcd_puts(string);
 
@@ -125,6 +154,47 @@ ISR(ADC_vect)
     lcd_gotoxy(6, 1);
     lcd_puts(string);*/
 
+<<<<<<< HEAD
+    if(!GPIO_read(&PINB, BUTTON)){
+      lcd_clrscr();
+    }
+    //down
+    if (valueY > 800)
+    {
+      joyY=1;
+    }
+    //up
+    if (valueY < 200)
+    {
+      joyY=0;
+    }
+    if (valueX >200 && valueX < 800)
+    {
+      state = 1;
+    }
+    
+
+    //right
+    if (valueX > 800 && state)
+    {
+      joyX++;
+      state = 0;
+    }
+    //left
+    if (valueX < 200 && state)
+    {
+      joyX--;
+      state = 0;
+ 
+    }
+    if(joyX > 15){
+      joyX = 0;
+    }
+    if(joyX < 0){
+      joyX = 15;
+    }
+      
+=======
     if(GPIO_read(&PINB, BUTTON)){
       //pressed
       //lcd_gotoxy(11, 1);
@@ -138,6 +208,7 @@ ISR(ADC_vect)
       //lcd_gotoxy(11, 1);
       //lcd_puts("-");
     }
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
 
 
 }
@@ -145,7 +216,10 @@ ISR(ADC_vect)
 //method for encoder
 void Encoder(){
   static uint8_t A_curr, B_curr, A_prev;
+<<<<<<< HEAD
+=======
   static uint8_t prom = 0;
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
   static int8_t counter = 0;
   static char alphabet[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
   A_curr = GPIO_read(&PINB, A); 
@@ -154,6 +228,11 @@ void Encoder(){
   if(A_curr != A_prev && A_curr  == 1)
   {
     //turning left
+<<<<<<< HEAD
+    if (B_curr == A_curr)
+    {
+      counter--;
+=======
     if (B_curr ==A_curr)
     {
     prom = 1;
@@ -164,10 +243,27 @@ void Encoder(){
        
         prom = 2;
      
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
     }
-   
+    //turning right
+    else{
+        counter++;
+    }  
   }
   A_prev = A_curr;
+<<<<<<< HEAD
+  if (counter < 0)
+  {
+    counter = 25;
+  }
+  if (counter > 25)
+  {
+    counter == 0;
+  } 
+  lcd_gotoxy(joyX,joyY);
+  lcd_putc(alphabet[counter]);
+  
+=======
   if (prom == 1)
   {
     //lcd_gotoxy(10, 0); 
@@ -196,5 +292,6 @@ void Encoder(){
 
   lcd_gotoxy(joyX,joyY);
   lcd_puts(alphabet[counter]);
+>>>>>>> aeab7299ca8768d0c97361e7170f9d638a1e1d25
 
 }
