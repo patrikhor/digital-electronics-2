@@ -29,8 +29,8 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 ### Team members
 
-* Member 1 Filip Seč(responsible for documentation, hardware setup and implementation of encoder in firmware)
-* Member 2 Patrik Horčička(responsible for hardware setup and implementation of lcd, joystick in firmware)
+* Member 1: Filip Seč(responsible for documentation, hardware setup and implementation of encoder in firmware)
+* Member 2: Patrik Horčička(responsible for hardware setup and implementation of lcd, joystick in firmware)
 
 ## Hardware description
 * In this project we will see how to display string of characters on display and after that with help of joystick controller and encoder you can choose direction:
