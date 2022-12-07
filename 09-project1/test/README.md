@@ -10,7 +10,7 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 * Through the BUT e-learning, students submit a link to the GitHub repository, which contains the complete project in PlatfomIO and a descriptive README file. The submission deadline is the day before the next laboratory, i.e. in 2 weeks.
 
-* The source code for the AVR must be written in C and/or Assembly and must be implementable on Arduino Uno board using toolchains from the semester, ie PlatformIO and not the Arduino-style. No other development tools are allowed.
+* The source code for the AVR must be written in C and/or Assembly and must be implementable on Arduino Uno board using toolchains from the semester, ie PlatformIO and not in the Arduino-style. No other development tools are allowed.
 
 ## Recommended GitHub repository structure
 
@@ -29,22 +29,36 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 ### Team members
 
-* Patrik Horčička (responsible for xxx)
-* Filip Sec (responsible for xxx)
+* Member 1 Filip Seč(responsible for documentation, hardware setup and implementation of encoder in firmware)
+* Member 2 Patrik Horčička(responsible for hardware setup and implementation of lcd, joystick in firmware)
 
 ## Hardware description
+* In this project we will see how to display string of characters on display and after that with help of joystick controller and encoder you can choose direction:
+* In this project we are using 4 main components such as: 
+   * arduino uno - microcontroller for communication and control of other components through code
+   * lcd display - for displaying charakters
+   * joystick - for moving on the lcd display and its switch for cleaning the display
+   * encoder - for changing charakter of the alphabet
 
-Insert descriptive text and schematic(s) of your implementation.
+### Scheme 
+![your figure](images/Circuit.png)
+
 
 ## Software description
 
-Put flowchats of your algorithm(s). Write descriptive text of your libraries and source files. Put direct links to these files in `src` or `lib` folders.
 
+### Flowchart of ISR(Timer)
+![your figure](images/FlowCharts.png)
+### Flowchart of ISR(ADC)
+![your figure](images/FlowCharts2.png)
+### Flowchart of encoder
+![your figure](images/FlowCharts3.png)
 ## Video
+[Video of out project1](https://www.youtube.com/watch?v=v_LxInjTsTE)
 
-Insert a link to a short video with your practical implementation example (1-3 minutes, e.g. on YouTube).
 
 ## References
 
-1. Write your text here.
-2. ...
+1. [Display manual](https://digilent.com/reference/_media/reference/pmod/pmodcls/pmodcls_rm.pdf)
+2. [Arduino](https://www.arduino.cc/)
+3. [De2](https://moodle.vut.cz/course/view.php?id=258370)
