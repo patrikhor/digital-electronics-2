@@ -90,7 +90,6 @@ void PWM(){
     GPIO_write_low(&DDRB, ServoA);
      if(counter1 == max){
         counter1 = 0;
-
      }   
 
   }
