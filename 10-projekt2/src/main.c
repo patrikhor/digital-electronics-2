@@ -90,8 +90,27 @@ ISR(TIMER0_OVF_vect)
 //uart_puts("timer0\r\n"); 
 counter2 = 1;
 }
+<<<<<<< HEAD
   
   /* if(counter2 <= servoY ){
+=======
+void PWM(){
+  uint8_t max = 1250;
+  uint8_t counter1 = 0;
+  uint8_t counter2 = 0;
+  if(counter1 <= servoX ){
+    GPIO_write_high(&DDRB, ServoA);
+    counter1++;
+  }else{
+    GPIO_write_low(&DDRB, ServoA);
+     if(counter1 == max){
+        counter1 = 0;
+     }   
+
+  }
+
+   if(counter2 <= servoY ){
+>>>>>>> 698ddd3ddf2b12abd20100f4cc23291ee43ebfaa
     GPIO_write_high(&DDRB, ServoB);
     counter2++;
     uart_puts("counter2++\r\n");
