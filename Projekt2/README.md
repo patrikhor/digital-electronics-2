@@ -29,12 +29,23 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 ### Team members
 
-* Member 1 (responsible for xxx)
-* Member 2 (responsible for xxx)
+* Patrik Horčička (Programming, schematic, flowcharts)
+* Filip Sec (ReadME)
 
 ## Hardware description
 
-Insert descriptive text and schematic(s) of your implementation.
+* Arduino UNO
+   * used as Microcontroller for our project
+   * used for generating PWM signal for controling of servo motors 
+* JoyStick
+   * for controling of the movement of servo motors
+* Servo Motors
+   * strong but slow motors
+   * for movement need defined PWM signal with period of 20ms and duty cycle in range of 1-2ms
+   * 
+
+### Scheme
+![your figure](images/Scheme.png)
 
 ## Software description
 
@@ -46,5 +57,6 @@ Insert a link to a short video with your practical implementation example (1-3 m
 
 ## References
 
-1. Write your text here.
-2. ...
+1. [Servo Motor Datasheet](https://robojax.com/learn/arduino/robojax-servo-sg90_datasheet.pdf)
+2. [Arduino](https://www.arduino.cc/)
+3. [De2](https://moodle.vut.cz/course/view.php?id=258370)
