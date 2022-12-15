@@ -3,17 +3,25 @@
 #include <gpio.h>           // GPIO library for AVR-GCC
 #include "timer.h"          // Timer library for AVR-GCC
 #include <stdlib.h>         // C library. Needed for number conversions
-
+#include <uart.h>
 
 //encoder pins
 #define ServoA  1  //PB1 -- D9
 #define ServoB  2  //PB2 -- D10
+
+#ifndef F_CPU
+# define F_CPU 16000000  // CPU frequency in Hz required for UART_BAUD_SELECT
+#endif
 
 //static global variable
 static int8_t servoX = 63;
 static int8_t servoY = 63;
 
 int main(void) {
+  uart_init(UART_BAUD_SELECT(9600, F_CPU));
+
+  uart_puts("main");
+  uart_puts("\r\n");
   //configure GPIO pins
   GPIO_mode_output(&DDRB, ServoA);
   GPIO_mode_output(&DDRB, ServoB);
@@ -54,6 +62,8 @@ int main(void) {
 
 ISR(TIMER1_OVF_vect)
 { 
+  uart_puts("TIMER1");
+      uart_puts("\r\n");
   static int8_t tec = 0;
   //changing X and Y of joystick
   if(tec == 0)
@@ -77,19 +87,22 @@ ISR(TIMER1_OVF_vect)
 }
 ISR(TIMER0_OVF_vect)
 { 
-  PWM(); 
-}
-void PWM(){
-  uint8_t max = 1250;
-  uint8_t counter1 = 0;
-  uint8_t counter2 = 0;
+  uart_puts("TIMER0");
+      uart_puts("\r\n");
+  uint16_t max = 1250;
+  uint16_t counter1 = 0;
+  uint16_t counter2 = 0;
   if(counter1 <= servoX ){
     GPIO_write_high(&DDRB, ServoA);
     counter1++;
+    uart_puts("counter1++");
+      uart_puts("\r\n");
   }else{
     GPIO_write_low(&DDRB, ServoA);
      if(counter1 == max){
         counter1 = 0;
+        uart_puts("counter1_0");
+      uart_puts("\r\n");
      }   
 
   }
@@ -97,19 +110,22 @@ void PWM(){
    if(counter2 <= servoY ){
     GPIO_write_high(&DDRB, ServoB);
     counter2++;
+    uart_puts("counter2++");
+      uart_puts("\r\n");
   }else{
     GPIO_write_low(&DDRB, ServoB);
      if(counter2 == max){
         counter2 = 0;
-        
+        uart_puts("counter2_0");
+      uart_puts("\r\n");
      }   
   }
 }
 
+
 ISR(ADC_vect){
     static uint8_t stateX = 0;
     static uint8_t stateY = 0;
-    char string[4];
     static float valueX;
     static float valueY;
     static int16_t tec = 0;
@@ -137,12 +153,16 @@ ISR(ADC_vect){
     {
       servoY--;
       stateY = 0;
+      uart_puts("ServoY--");
+      uart_puts("\r\n");
     }
     //up - set row to first
     if (valueY < 200 && stateY)
     {
       servoY++;
       stateY = 0;
+      uart_puts("ServoY++");
+      uart_puts("\r\n");
     }
 
     //move cursor to the right
@@ -150,13 +170,16 @@ ISR(ADC_vect){
     {
       servoX++;
       stateX = 0;
+      uart_puts("ServoX++");
+      uart_puts("\r\n");
     }
     //move cursor to the left
     if (valueX < 200 && stateX)
     {
       servoX--;
       stateX = 0;
- 
+      uart_puts("ServoX--");
+      uart_puts("\r\n");
     }
     //get cursor on the start of the display
     if(servoX > 125){
