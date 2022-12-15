@@ -3,10 +3,20 @@
 #include <gpio.h>           // GPIO library for AVR-GCC
 #include "timer.h"          // Timer library for AVR-GCC
 #include <stdlib.h>         // C library. Needed for number conversions
+<<<<<<< HEAD
 #include <uart.h>
+=======
+//#include <uart.h>
+
+/* Defines -----------------------------------------------------------*/
+#ifndef F_CPU
+# define F_CPU 16000000  // CPU frequency in Hz required for UART_BAUD_SELECT
+#endif
+
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
 
 //encoder pins
-#define ServoA  1  //PB1 -- D9
+#define ServoA  PD7  //PB1 -- D9
 #define ServoB  2  //PB2 -- D10
 
 #ifndef F_CPU
@@ -16,18 +26,24 @@
 //static global variable
 static int8_t servoX = 63;
 static int8_t servoY = 63;
+static uint8_t counter2 = 0;
 
 int main(void) {
+<<<<<<< HEAD
   uart_init(UART_BAUD_SELECT(9600, F_CPU));
 
   uart_puts("main");
   uart_puts("\r\n");
+=======
+  //uart_init(UART_BAUD_SELECT(9600, F_CPU));
+  //uart_puts("Main\r\n");
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
   //configure GPIO pins
-  GPIO_mode_output(&DDRB, ServoA);
+  GPIO_mode_output(&DDRD, ServoA);
   GPIO_mode_output(&DDRB, ServoB);
   // Configure Analog-to-Digital Convertion unit
   // Select ADC voltage reference to "AVcc with external capacitor at AREF pin"
-  ADMUX |= (1<<REFS0);
+  /*ADMUX |= (1<<REFS0);
   ADMUX &= ~(1<<REFS1);
   // Select input channel ADC0 (voltage divider pin)
   
@@ -38,28 +54,52 @@ int main(void) {
   // Set clock prescaler to 128
   ADCSRA |= (1<<ADPS0);
   ADCSRA |= (1<<ADPS1);
-  ADCSRA |= (1<<ADPS2);
+  ADCSRA |= (1<<ADPS2);*/
 
   // Configure 16-bit Timer/Counter0 to start ADC conversion
   // Set prescaler to 16 us and enable overflow interrupt
-  TIM0_overflow_16us();
+  TIM0_overflow_1024us();
   TIM0_overflow_interrupt_enable();
-  TIM1_overflow_33ms();
-  TIM1_overflow_interrupt_enable();
   // Enables interrupts by setting the global interrupt mask
   sei();
 
   // Infinite loop
   while (1)
   {
-      /* Empty loop. All subsequent operations are performed exclusively 
-       * inside interrupt service routines ISRs */
+    if (counter2 == 1)
+    {
+    //uart_puts("whilee\r\n");
+    static uint16_t max = 1250; 
+    static uint8_t counter1 = 0;
+    if(counter1 <= servoX )
+    {
+      GPIO_write_high(&PORTD, ServoA);
+      counter1++;
+      
+    }
+    else if(counter1 > servoX)
+    {
+      GPIO_write_low(&PORTD, ServoA);
+      if(counter1 == max)
+      {
+        counter1 = 0;
+        //uart_puts("counter1_0\r\n");
+        servoX++;
+      }   
+
+    }
+    counter2 = 0;
+    }
+    
+
+    
   }
 
   // Will never reach this
   return 0;
 }
 
+<<<<<<< HEAD
 ISR(TIMER1_OVF_vect)
 { 
   uart_puts("TIMER1");
@@ -92,6 +132,22 @@ ISR(TIMER0_OVF_vect)
   uint16_t max = 1250;
   uint16_t counter1 = 0;
   uint16_t counter2 = 0;
+=======
+
+ISR(TIMER0_OVF_vect)
+{
+//uart_puts("timer0\r\n"); 
+counter2 = 1;
+}
+<<<<<<< HEAD
+  
+  /* if(counter2 <= servoY ){
+=======
+void PWM(){
+  uint8_t max = 1250;
+  uint8_t counter1 = 0;
+  uint8_t counter2 = 0;
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
   if(counter1 <= servoX ){
     GPIO_write_high(&DDRB, ServoA);
     counter1++;
@@ -108,22 +164,34 @@ ISR(TIMER0_OVF_vect)
   }
 
    if(counter2 <= servoY ){
+>>>>>>> 698ddd3ddf2b12abd20100f4cc23291ee43ebfaa
     GPIO_write_high(&DDRB, ServoB);
     counter2++;
+<<<<<<< HEAD
     uart_puts("counter2++");
       uart_puts("\r\n");
+=======
+    uart_puts("counter2++\r\n");
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
   }else{
     GPIO_write_low(&DDRB, ServoB);
      if(counter2 == max){
         counter2 = 0;
+<<<<<<< HEAD
         uart_puts("counter2_0");
       uart_puts("\r\n");
+=======
+        uart_puts("counter2_0\r\n");
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
      }   
-  }
-}
+  }*/
 
+<<<<<<< HEAD
 
 ISR(ADC_vect){
+=======
+/*ISR(ADC_vect){
+>>>>>>> 1b1d299d25d39ed399dbd7785f93ebae682990eb
     static uint8_t stateX = 0;
     static uint8_t stateY = 0;
     static float valueX;
@@ -197,4 +265,4 @@ ISR(ADC_vect){
     if(servoY < 63){
       servoY = 63;
     }   
-}
+}*/
