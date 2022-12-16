@@ -48,7 +48,7 @@ The goal of the project is cooperation in pairs, further study of the topic, des
    * the one we used can only operate in radius of 180°
 
 ### Scheme
-![your figure](images/Scheme.png)
+![your figure](images/Schema.png)
 
 ## Software description
 
