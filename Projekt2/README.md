@@ -52,6 +52,12 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 ## Software description
 
+### Flowchart of ISR(Timer0)
+![your figure](images/timer0.png)
+
+### Flowchart of ISR(Timer1)
+![your figure](images/FlowCharts.png)
+
 ### Flowchart of ISR(ADC)
 ![your figure](images/ADC_vect.png)
 
