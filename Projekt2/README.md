@@ -37,19 +37,28 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 * Arduino UNO
    * used as Microcontroller for our project
    * used for generating PWM signal for controling of servo motors 
+   * used for reading the voltage from JoyStick, for controlling purposes 
 * JoyStick
    * for controling of the movement of servo motors
+   * JoyStick is giving the voltage on its ports VRx and VRy
+   * voltage depends on the position of joystick in X and Y axis
 * Servo Motors
    * strong but slow motors
    * for movement need defined PWM signal with period of 20ms and duty cycle in range of 1-2ms
-   * 
+   * the one we used can only operate in radius of 180°
 
 ### Scheme
 ![your figure](images/Scheme.png)
 
 ## Software description
 
-Put flowchats of your algorithm(s). Write descriptive text of your libraries and source files. Put direct links to these files in `src` or `lib` folders.
+### Flowchart of ISR(ADC)
+![your figure](images/ADC_vect.png)
+
+## Practical use
+* these parts can be used in environment where is a need of movement in two axis. 
+   * when we connect two servo motor in serial, first can move in one axis and a second in second axis 
+* we can see this features for example in excavators, where they also use one joystick for two axis
 
 ## Video
 
