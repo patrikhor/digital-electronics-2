@@ -53,12 +53,15 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 ## Software description
 
 ### Flowchart of ISR(Timer0)
+* this method is used for controlling of the servo motor, for generating PWM signal
 ![your figure](images/timer0.png)
 
 ### Flowchart of ISR(Timer1)
+* this method is used for changing ADC pins for reading
 ![your figure](images/FlowCharts.png)
 
 ### Flowchart of ISR(ADC)
+* this method is handling processing of the ADC 
 ![your figure](images/ADC_vect.png)
 
 ## Practical use
@@ -67,8 +70,9 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 * we can see this features for example in excavators, where they also use one joystick for two axis
 
 ## Video
-
-Insert a link to a short video with your practical implementation example (1-3 minutes, e.g. on YouTube).
+* video is showing practical use of our project in simulation enviroment 
+* there can be also seen signals on logical analyzer, where we can see PWM signals for both servo motors
+* [Video](https://youtu.be/9fueH01eipU)
 
 ## References
 
