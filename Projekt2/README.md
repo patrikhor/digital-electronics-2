@@ -29,8 +29,8 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 
 ### Team members
 
-* Patrik Horčička (Programming, schematic, flowcharts)
-* Filip Sec (ReadME)
+* Patrik Horčička 
+* Filip Sec 
 
 ## Hardware description
 
