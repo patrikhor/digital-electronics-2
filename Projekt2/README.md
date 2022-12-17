@@ -53,15 +53,15 @@ The goal of the project is cooperation in pairs, further study of the topic, des
 ## Software description
 
 ### Flowchart of ISR(Timer0)
-* this method is used for controlling of the servo motor, for generating PWM signal
+* this method is used for controlling of the servo motor, for generating PWM signal <br />
 ![your figure](images/timer0.png)
 
 ### Flowchart of ISR(Timer1)
-* this method is used for changing ADC pins for reading
+* this method is used for changing ADC pins for reading <br />
 ![your figure](images/FlowCharts.png)
 
 ### Flowchart of ISR(ADC)
-* this method is handling processing of the ADC 
+* this method is handling processing of the ADC <br />
 ![your figure](images/ADC_vect.png)
 
 ## Practical use
